@@ -1,3 +1,4 @@
+
 from behave import given, when, then
 from appointments import AppointmentService
 
@@ -34,3 +35,18 @@ def step_booking_rejected(context, message):
     assert context.result == message, (
         f"Expected: {message}, received: {context.result}"
     )
+
+
+@when('a resident books slot "{slot_id}" without a name')
+def step_book_without_name(context, slot_id):
+    context.result = context.service.book(slot_id, "")
+
+
+@then('slot "{slot_id}" should remain available')
+def step_slot_remains_available(context, slot_id):
+    assert slot_id in context.service.available_slots
+
+
+@then('no booking should be created')
+def step_no_booking_created(context):
+    assert context.service.bookings == {}

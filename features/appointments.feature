@@ -15,3 +15,11 @@ Feature: Resident appointment booking
     When resident "Jamie Brown" books slot "SLOT-001"
     Then the booking should be rejected with "Slot is unavailable"
     And slot "SLOT-001" should be booked by "Alex Smith"
+
+
+  Scenario: Reject booking without a resident name
+    Given appointment slot "SLOT-001" is available
+    When a resident books slot "SLOT-001" without a name
+    Then the booking should be rejected with "Resident name is required"
+    And slot "SLOT-001" should remain available
+    And no booking should be created
