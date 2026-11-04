@@ -22,3 +22,15 @@ def step_booking_confirmed(context):
 @then('slot "{slot_id}" should be booked by "{name}"')
 def step_check_booking(context, slot_id, name):
     assert context.service.bookings.get(slot_id) == name
+
+@given('appointment slot "{slot_id}" is booked by "{name}"')
+def step_occupied_slot(context, slot_id, name):
+    context.service = AppointmentService([slot_id])
+    context.service.book(slot_id, name)
+
+
+@then('the booking should be rejected with "{message}"')
+def step_booking_rejected(context, message):
+    assert context.result == message, (
+        f"Expected: {message}, received: {context.result}"
+    )
