@@ -1,0 +1,21 @@
+USING RUNNER: behave.runner:Runner
+Feature: Resident appointment booking # features/appointments.feature:1
+  As a resident
+  I want to book an available council appointment
+  So that I can access council support
+  Scenario: Book an available appointment                # features/appointments.feature:6
+    Given appointment slot "SLOT-001" is available       # features/steps/appointment_steps.py:5
+    When resident "Alex Smith" books slot "SLOT-001"     # features/steps/appointment_steps.py:10
+    Then the booking should be confirmed                 # features/steps/appointment_steps.py:15
+    And slot "SLOT-001" should be booked by "Alex Smith" # features/steps/appointment_steps.py:22
+
+  Scenario: Reject booking an occupied slot                        # features/appointments.feature:13
+    Given appointment slot "SLOT-001" is booked by "Alex Smith"    # features/steps/appointment_steps.py:26
+    When resident "Jamie Brown" books slot "SLOT-001"              # features/steps/appointment_steps.py:10
+    Then the booking should be rejected with "Slot is unavailable" # features/steps/appointment_steps.py:32
+    And slot "SLOT-001" should be booked by "Alex Smith"           # features/steps/appointment_steps.py:22
+
+1 feature passed, 0 failed, 0 skipped
+2 scenarios passed, 0 failed, 0 skipped
+8 steps passed, 0 failed, 0 skipped
+Took 0min 0.003s
