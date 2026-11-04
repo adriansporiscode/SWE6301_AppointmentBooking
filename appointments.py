@@ -4,4 +4,6 @@ class AppointmentService:
         self.bookings = {}
 
     def book(self, slot_id, resident_name):
-        raise NotImplementedError("Booking is not implemented yet")
+        self.bookings[slot_id] = resident_name
+        self.available_slots.remove(slot_id)
+        return "Booking confirmed"
